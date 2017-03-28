@@ -176,3 +176,69 @@ var nowHour = new Date().getHours();
 // }
 
 // console.log( fizzBuzz(16) );
+
+$(document).ready(function(){
+
+	// ========================================
+	// AJAX :
+	// ========================================
+
+	$('#display-link').on('click', function(){
+		// console.log('tu as bien cliqué sur le lien');
+
+		// TODO
+		// - aller chercher du contenu
+		// - l'afficher
+
+		$.ajax({
+			url: "http://httpbin.org/ip",
+			success: function(data){
+				$('#content').html(data.origin);
+			}
+		});
+
+	});
+
+	// ========================================
+	// REGEX :
+	// ========================================
+
+	var pattern = /[0-9]{10}/g;
+	var text 	= "Mon numero de telephone est le 0606060606 ou le 0101010101";
+	// var result	= pattern.test(text);
+
+	// // true or false ?
+	// console.log(result);
+
+	var matches = text.match(pattern);
+	console.log(matches);
+
+	function ifFrenchZipCode(zipCode){
+
+		var pattern = /^[0-9][0-9AB][0-9]{3}$/;
+		return pattern.test(zipCode);
+
+	}
+
+	$('#contactForm').on('submit', function(e){
+
+		var valid = true;
+		var zipCode = $('#zipCode').val();
+		var formGroup = $('#zipCode').parents('.form-group');
+
+		if (ifFrenchZipCode(zipCode)) {
+			// vert
+			formGroup.addClass('has-success').removeClass('has-error');
+		} else {
+			// rouge
+			valid = false;
+			formGroup.addClass('has-error').removeClass('has-success');
+		}
+
+		if(!valid){
+			e.preventDefault();
+		}
+
+	});
+
+});
